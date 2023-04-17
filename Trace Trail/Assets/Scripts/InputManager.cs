@@ -7,16 +7,16 @@ public class InputManager : MonoBehaviour
     #region Events
 
         public delegate void StartDraw();
-        public static event StartDraw OnStartDraw;
+        public event StartDraw OnStartDraw;
 
         public delegate void EndDraw();
-        public static event EndDraw OnEndDraw;
+        public event EndDraw OnEndDraw;
 
         public delegate void StartErase();
-        public static event StartErase OnStartErase;
+        public event StartErase OnStartErase;
 
         public delegate void EndErase();
-        public static event EndErase OnEndErase;
+        public event EndErase OnEndErase;
 
     #endregion
 
