@@ -17,6 +17,7 @@ public class LineManager : MonoBehaviour
     private Color lineColor = Color.black;
 
     [SerializeField]
+    //The more vertices at the end of the line, the smoother the curve will be at the end
     private int lineCapVertices = 5;
 
     #region  Private
@@ -31,8 +32,6 @@ public class LineManager : MonoBehaviour
     private bool erasing = false;
 
     private Camera MainCamera;
-
-    // private InputManager inputmanager;
 
     #endregion
 
@@ -83,25 +82,36 @@ public class LineManager : MonoBehaviour
     IEnumerator Drawing()
     {
         drawing = true;
-
         StartLine();
-        
         while(drawing)
         {
-            // AddPoint(GetCurrentWorldPoint());
+            AddPoint(GetCurrentWorldPoint());
             yield return null;
         }
-
         // Endline();
     }
+
     private void StartLine()
     {
+        //Initiating the line
         currentLine = new List<Vector2>();
         GameObject currentLineObject = new GameObject();
         currentLineObject.name = "Line";
         currentLineObject.transform.parent = transform;
         currentLineRenderer = currentLineObject.AddComponent<LineRenderer>();
         currentLineEdgeCollider = currentLineObject.AddComponent<EdgeCollider2D>();
+
+        //Set settings
+        currentLineRenderer.positionCount = 0;
+        currentLineRenderer.startWidth = lineWidth;
+        currentLineRenderer.endWidth = lineWidth;
+        currentLineRenderer.numcapvertices = lineCapVertices;
+        //We need material for color change to show
+        currentLineRenderer.material = new Material (Shader.Find("Particles/Standard Unlit")); 
+        currentLineRenderer.startColor = lineColor;
+        currentLineRenderer.endColor = lineColor;
+        //Setting Edge Radius of the Edge collider
+        currentLineEdgeCollider.edgeRadius = .1f;
     }
 
     private Vector2 GetCurrentWorldPoint()
@@ -109,5 +119,29 @@ public class LineManager : MonoBehaviour
         return MainCamera.ScreenToWorldPoint(inputmanager.GetmousePosition());
     }
 
+    private void AddPoint(Vector2 point )
+    {
+        if(PlacePoint(point))
+        {
+            currentLine.Add(point);
+            currentLineRenderer.positionCount++;
+            currentLineRenderer.SetPosition(currentLineRenderer.positionCount - 1, point);
+        }
+    }
 
+    private bool PlacePoint(Vector2 point)
+    {
+        if(currentLine.Count == 0)
+        {
+            return true;
+        }
+        if(Vector2.Distance(point, currentLine[currentLine.Count - 1]) < lineSeperationDistance)
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
 }
