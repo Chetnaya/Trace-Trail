@@ -61,12 +61,15 @@ public class LineManager : MonoBehaviour
 
     private void OnStartDraw()
     {
-        StartCoroutine("Drawing");
+        if(!erasing)
+        {
+            StartCoroutine("Drawing");
+        }
     }
 
     private void OnEndDraw()
     {
-
+        drawing = false;
     }
 
     private void OnStartErase()
@@ -88,7 +91,7 @@ public class LineManager : MonoBehaviour
             AddPoint(GetCurrentWorldPoint());
             yield return null;
         }
-        // Endline();
+        Endline();
     }
 
     private void StartLine()
@@ -105,13 +108,19 @@ public class LineManager : MonoBehaviour
         currentLineRenderer.positionCount = 0;
         currentLineRenderer.startWidth = lineWidth;
         currentLineRenderer.endWidth = lineWidth;
-        currentLineRenderer.numcapvertices = lineCapVertices;
+        currentLineRenderer.numCapVertices = lineCapVertices;
         //We need material for color change to show
         currentLineRenderer.material = new Material (Shader.Find("Particles/Standard Unlit")); 
         currentLineRenderer.startColor = lineColor;
         currentLineRenderer.endColor = lineColor;
         //Setting Edge Radius of the Edge collider
         currentLineEdgeCollider.edgeRadius = .1f;
+    }
+
+    private void Endline()
+    //When line ends, set those points in the edge collider
+    {
+        currentLineEdgeCollider.SetPoints(currentLine);
     }
 
     private Vector2 GetCurrentWorldPoint()
