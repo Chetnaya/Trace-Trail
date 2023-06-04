@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -109,6 +108,8 @@ public class LineManager : MonoBehaviour
         currentLineRenderer.endColor = lineColor;
         //Setting Edge Radius of the Edge collider
         currentLineEdgeCollider.edgeRadius = .1f;
+ 
+        currentLineObject.layer = 1<<3;//100
     }
 
     private void Endline()
@@ -163,11 +164,11 @@ public class LineManager : MonoBehaviour
         erasing = true;
         while(erasing)
         {
-            Vector2 worldMousePosition = GetCurrentScreenPoint();
-            GameObject g = Utils.Raycast(mainCamera, worldMousePosition);
-            if(g != null)
+            Vector2 screenMousePosition = GetCurrentScreenPoint();
+            GameObject g = Utils.Raycast(MainCamera, screenMousePosition, 1<<8);//Passing in the layerMask, Left shift 8 times as out layer is set to 8 in unity.
+            if( g != null)
             {
-                DestroyLine()
+                DestroyLine(g);
             }
             yield return null;
         }
@@ -177,6 +178,7 @@ public class LineManager : MonoBehaviour
     private void DestroyLine(GameObject g)
     {
         //Destroy line code
+        Destroy(g);
     }
 
     private Vector2 GetCurrentScreenPoint()
