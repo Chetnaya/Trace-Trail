@@ -3,10 +3,10 @@ using UnityEngine;
 public static class Utils
 {
     //Utility function for RAYCASTING
-    public static GameObject Raycast(Camera mainCamera, Vector2 screenPosition)
+    public static GameObject Raycast(Camera mainCamera, Vector2 screenPosition, int layer)
     {
         Ray ray = mainCamera.ScreenPointToRay(screenPosition);
-        RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray);
+        RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray, Mathf.Infinity, layer);
 
         if(hit2D.collider != null) 
         {
