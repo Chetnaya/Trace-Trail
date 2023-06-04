@@ -17,6 +17,9 @@ public class LineManager : MonoBehaviour
     private Color lineColor = Color.black;
 
     [SerializeField]
+    private PhysicsMaterial2D physicsmaterial2d;
+
+    [SerializeField]
     //The more vertices at the end of the line, the smoother the curve will be at the end
     private int lineCapVertices = 5;
 
@@ -110,6 +113,8 @@ public class LineManager : MonoBehaviour
         currentLineRenderer.endColor = lineColor;
         //Setting Edge Radius of the Edge collider
         currentLineEdgeCollider.edgeRadius = .1f;
+
+        currentLineEdgeCollider.sharedMaterial = physicsmaterial2d;
  
         currentLineObject.layer = 1<<3;//100
     }
