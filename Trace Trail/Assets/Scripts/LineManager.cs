@@ -11,6 +11,9 @@ public class LineManager : MonoBehaviour
     private float lineSeperationDistance = .2f;
 
     [SerializeField]
+    private float effectorSpeed = 2f;
+
+    [SerializeField]
     private float lineWidth = .1f;
 
     [SerializeField]
@@ -95,14 +98,18 @@ public class LineManager : MonoBehaviour
 
     private void StartLine()
     {
-        //Initiating the line
+        //---------------------Initiating the line----------------------------------
         currentLine = new List<Vector2>();
         currentLineObject = new GameObject();
         currentLineObject.name = "Line";
         currentLineObject.transform.parent = transform;
         currentLineRenderer = currentLineObject.AddComponent<LineRenderer>();
         currentLineEdgeCollider = currentLineObject.AddComponent<EdgeCollider2D>();
-        //Set settings
+        //Adding surface effector component for the line
+        SurfaceEffector2D curreentEffector = currentLineObject.AddComponent<SurfaceEffector2D>();
+
+
+        //----------------Set settings--------------------------------------------------
         currentLineRenderer.positionCount = 0;
         currentLineRenderer.startWidth = lineWidth;
         currentLineRenderer.endWidth = lineWidth;
@@ -114,9 +121,12 @@ public class LineManager : MonoBehaviour
         //Setting Edge Radius of the Edge collider
         currentLineEdgeCollider.edgeRadius = .1f;
 
-        currentLineEdgeCollider.sharedMaterial = physicsmaterial2d;
+        currentLineEdgeCollider.sharedMaterial = physicsmaterial2d; 
  
         currentLineObject.layer = 1<<3;//100
+
+        curreentEffector.speed =  effectorSpeed;
+        currentLineEdgeCollider.usedByEffector = true;
     }
 
     private void Endline()

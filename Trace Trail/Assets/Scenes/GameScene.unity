@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineSeperationDistance: 0.2
+  effectorSpeed: 4
   lineWidth: 0.1
   lineColor: {r: 0, g: 0, b: 0, a: 1}
   physicsmaterial2d: {fileID: 6200000, guid: c84a499d831d39346aa165464e207038, type: 2}

@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
 
     private bool playing = false;
 
-
     private void Awake()
     {
         playercontrols = new PlayerControls();
