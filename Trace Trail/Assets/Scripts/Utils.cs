@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class Utils : MonoBehaviour
+// A script for all the utility functions
+public static class Utils
 {
-    // Start is called before the first frame update
-    void Start()
+    //Utility function for RAYCASTING
+    public static GameObject Raycast(Camera mainCamera, Vector2 screenPosition)
     {
-        
-    }
+        Ray ray = mainCamera.ScreenPointToRay(screenPosition);
+        RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(hit2D.collider != null) 
+        {
+            return hit2D.collider.gameObject;
+
+        }
+        else
+        {
+            return null;
+        }
+
     }
 }
