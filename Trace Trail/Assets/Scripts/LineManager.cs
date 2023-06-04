@@ -164,7 +164,19 @@ public class LineManager : MonoBehaviour
         while(erasing)
         {
             Vector2 worldMousePosition = GetCurrentScreenPoint();
+            GameObject g = Utils.Raycast(mainCamera, worldMousePosition);
+            if(g != null)
+            {
+                DestroyLine()
+            }
+            yield return null;
         }
+
+    }
+
+    private void DestroyLine(GameObject g)
+    {
+        //Destroy line code
     }
 
     private Vector2 GetCurrentScreenPoint()
