@@ -30,6 +30,8 @@ public class LineManager : MonoBehaviour
     private EdgeCollider2D currentLineEdgeCollider;
     //
 
+    private GameObject currentLineObject;
+
     private bool drawing = false;
     private bool erasing = false;
 
@@ -92,7 +94,7 @@ public class LineManager : MonoBehaviour
     {
         //Initiating the line
         currentLine = new List<Vector2>();
-        GameObject currentLineObject = new GameObject();
+        currentLineObject = new GameObject();
         currentLineObject.name = "Line";
         currentLineObject.transform.parent = transform;
         currentLineRenderer = currentLineObject.AddComponent<LineRenderer>();
@@ -115,7 +117,15 @@ public class LineManager : MonoBehaviour
     private void Endline()
     //When line ends, set those points in the edge collider
     {
-        currentLineEdgeCollider.SetPoints(currentLine);
+        if(currentLine.Count == 1 )
+        {
+            DestroyLine(currentLineObject);
+        }
+        else
+        {
+            currentLineEdgeCollider.SetPoints(currentLine);
+        }
+        
     }
 
     private void AddPoint(Vector2 point )
@@ -187,7 +197,7 @@ public class LineManager : MonoBehaviour
     }
 
     /*------------------------------------------------------
-    ---------------------------------------------------------
+    --------------------------------------------------------
     ------------------------------------------------------- */
     
     private Vector2 GetCurrentWorldPoint()
