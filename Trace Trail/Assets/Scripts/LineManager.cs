@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class LineManager : MonoBehaviour
     //The more vertices at the end of the line, the smoother the curve will be at the end
     private int lineCapVertices = 5;
 
+
     #region  Private
 
     // Keep track of lines 
@@ -27,6 +29,7 @@ public class LineManager : MonoBehaviour
     private List<Vector2> currentLine;
     private LineRenderer currentLineRenderer;
     private EdgeCollider2D currentLineEdgeCollider;
+    //
 
     private bool drawing = false;
     private bool erasing = false;
@@ -34,7 +37,6 @@ public class LineManager : MonoBehaviour
     private Camera MainCamera;
 
     #endregion
-
     private void Awake()
     {
         inputmanager = GetComponent<InputManager>();
@@ -43,7 +45,8 @@ public class LineManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // Subscribing to the event
+        // Subscribing to the event 
+
         inputmanager.OnStartDraw += OnStartDraw ;
         inputmanager.OnEndDraw += OnEndDraw ;
         inputmanager.OnStartErase += OnStartErase ;
@@ -58,7 +61,9 @@ public class LineManager : MonoBehaviour
         inputmanager.OnStartErase -= OnStartErase ;
         inputmanager.OnEndErase -= OnEndErase ;
     }
-
+    /*------------------------------------------------------
+    ---------------------DRAWING----------------------------
+    ------------------------------------------------------- */
     private void OnStartDraw()
     {
         if(!erasing)
@@ -70,16 +75,6 @@ public class LineManager : MonoBehaviour
     private void OnEndDraw()
     {
         drawing = false;
-    }
-
-    private void OnStartErase()
-    {
-
-    }
-
-    private void OnEndErase()
-    {
-
     }
 
     IEnumerator Drawing()
@@ -103,7 +98,6 @@ public class LineManager : MonoBehaviour
         currentLineObject.transform.parent = transform;
         currentLineRenderer = currentLineObject.AddComponent<LineRenderer>();
         currentLineEdgeCollider = currentLineObject.AddComponent<EdgeCollider2D>();
-
         //Set settings
         currentLineRenderer.positionCount = 0;
         currentLineRenderer.startWidth = lineWidth;
@@ -121,11 +115,6 @@ public class LineManager : MonoBehaviour
     //When line ends, set those points in the edge collider
     {
         currentLineEdgeCollider.SetPoints(currentLine);
-    }
-
-    private Vector2 GetCurrentWorldPoint()
-    {
-        return MainCamera.ScreenToWorldPoint(inputmanager.GetmousePosition());
     }
 
     private void AddPoint(Vector2 point )
@@ -153,4 +142,43 @@ public class LineManager : MonoBehaviour
             return true;
         }
     }
+    /*------------------------------------------------------
+    ---------------------ERASING----------------------------
+    ------------------------------------------------------- */
+    private void OnStartErase()
+    {
+        if(!drawing)
+        {
+            StartCoroutine("Erasing");
+        }
+    }
+
+    private void OnEndErase()
+    {
+        erasing =  false;
+    }
+
+    IEnumerator Erasing()
+    {
+        erasing = true;
+        while(erasing)
+        {
+            Vector2 worldMousePosition = GetCurrentScreenPoint();
+        }
+    }
+
+    private Vector2 GetCurrentScreenPoint()
+    {
+        return inputmanager.GetmousePosition();
+    }
+
+    /*------------------------------------------------------
+    ---------------------------------------------------------
+    ------------------------------------------------------- */
+    
+    private Vector2 GetCurrentWorldPoint()
+    {
+        return MainCamera.ScreenToWorldPoint(inputmanager.GetmousePosition());
+    }
 }
+
