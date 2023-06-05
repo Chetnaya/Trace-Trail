@@ -49,6 +49,8 @@ public class Player : MonoBehaviour
             rb.bodyType = RigidbodyType2D.Static;
             transform.position = startingPosition;
             transform.rotation = startingRotation;
+
+            camerafollow.CenterOnTarget();
             camerafollow.enabled = false;
         }
     }
