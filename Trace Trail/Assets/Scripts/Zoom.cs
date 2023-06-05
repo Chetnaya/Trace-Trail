@@ -21,12 +21,12 @@ public class Zoom : MonoBehaviour
     {
         if(increment == 0) 
         {
-            return
+            return;
         }
         else
         {
            float target = Mathf.Clamp(mainCamera.orthographicSize + increment, zoomInMax, zoomOutMax); 
-           mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, target, Time.deltaTime * zoomSpeed)
+           mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, target, Time.deltaTime * zoomSpeed);
         }
     }
 }

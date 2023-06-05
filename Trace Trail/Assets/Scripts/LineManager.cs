@@ -48,12 +48,17 @@ public class LineManager : MonoBehaviour
 
     private Panning panning;
 
+    private Zoom zoom;
+
+    private MouseControls mouseControls;
+
     #endregion
     private void Awake()
     {
         inputmanager = GetComponent<InputManager>();
         MainCamera = Camera.main;
         panning = GetComponent<Panning>();
+        zoom = GetComponent<Zoom>();
     }
 
     private void OnEnable()
@@ -229,10 +234,21 @@ public class LineManager : MonoBehaviour
     /*------------------------------------------------------
     --------------------------------------------------------
     ------------------------------------------------------- */
+    private float GetZoomValue()
+    {
+        return GetZoom();
+    }
+    private float GetZoom()
+    {
+        return mouseControls.Mouse.Zoom.ReadValue<float>();
+    }
+    
+
     private void Update()
     {
         if(!player.playing){
             panning.PanScreen(GetCurrentScreenPoint());
+            zoom.zoomScreen(GetZoomValue());
         }
     }
 }
