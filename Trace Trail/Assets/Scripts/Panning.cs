@@ -4,15 +4,41 @@ using UnityEngine;
 
 public class Panning : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+   [SerializeField]
+   private float panSpeed = 2f;
+   private Transform mainCamera;
+
+   private void Awake()
+   {
+    mainCamera = Camera.main.transform;
+   }
+
+   private Vector2 PanDirection(Vector2 mouseScreenPosition)
+   {
+    Vector2 direction = Vector2.zero;
+    if(mouseScreenPosition.y >= Screenheight * .95f)
     {
-        
+        direction.y += 1;
+    }
+    else(mouseScreenPosition.y <= Screenheight * .05f)
+    {
+        direction.y -= 1;
     }
 
-    // Update is called once per frame
-    void Update()
+    if(mouseScreenPosition.x >= Screenwidth * .95f)
     {
-        
+        direction.x += 1;
     }
+    else(mouseScreenPosition.x <= Screenwidth * .05f)
+    {
+        direction.x -= 1;
+    }
+    return direction;
+   }
+
+   public void PanScreen(Vector2 mouseScreenPosition)
+   {
+    Vector2 direction = PanDirection(mouseScreenPosition);
+    mainCamera.position = Vector3.Lerp(mainCamera.position, (Vector3)direction + mainCamera.position, Time.deltaTime * panSpeed);
+   }
 }
