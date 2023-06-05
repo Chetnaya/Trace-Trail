@@ -9,10 +9,11 @@ public class Player : MonoBehaviour
 
     private CameraFollow camerafollow;
 
-    private bool playing = false;
+    public bool playing { get; private set; }
 
     private void Awake()
     {
+        playing = false;
         camerafollow = Camera.main.GetComponent<CameraFollow>();
         playercontrols = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();

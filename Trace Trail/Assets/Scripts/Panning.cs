@@ -16,20 +16,20 @@ public class Panning : MonoBehaviour
    private Vector2 PanDirection(Vector2 mouseScreenPosition)
    {
     Vector2 direction = Vector2.zero;
-    if(mouseScreenPosition.y >= Screenheight * .95f)
+    if(mouseScreenPosition.y >= Screen.height * .95f)
     {
         direction.y += 1;
     }
-    else(mouseScreenPosition.y <= Screenheight * .05f)
+    else if(mouseScreenPosition.y <= Screen.height * .05f)
     {
         direction.y -= 1;
     }
 
-    if(mouseScreenPosition.x >= Screenwidth * .95f)
+    if(mouseScreenPosition.x >= Screen.width * .95f)
     {
         direction.x += 1;
     }
-    else(mouseScreenPosition.x <= Screenwidth * .05f)
+    else if(mouseScreenPosition.x <= Screen.width * .05f)
     {
         direction.x -= 1;
     }

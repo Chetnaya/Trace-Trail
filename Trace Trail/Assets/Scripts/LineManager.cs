@@ -8,6 +8,9 @@ public class LineManager : MonoBehaviour
     private InputManager inputmanager;
 
     [SerializeField]
+    private Player player;
+
+    [SerializeField]
     private float lineSeperationDistance = .2f;
 
     [SerializeField]
@@ -43,11 +46,14 @@ public class LineManager : MonoBehaviour
 
     private Camera MainCamera;
 
+    private Panning panning;
+
     #endregion
     private void Awake()
     {
         inputmanager = GetComponent<InputManager>();
         MainCamera = Camera.main;
+        panning = GetComponent<Panning>();
     }
 
     private void OnEnable()
@@ -218,6 +224,16 @@ public class LineManager : MonoBehaviour
     private Vector2 GetCurrentWorldPoint()
     {
         return MainCamera.ScreenToWorldPoint(inputmanager.GetmousePosition());
+    }
+
+    /*------------------------------------------------------
+    --------------------------------------------------------
+    ------------------------------------------------------- */
+    private void Update()
+    {
+        if(!player.playing){
+            panning.PanScreen(GetCurrentScreenPoint());
+        }
     }
 }
 
