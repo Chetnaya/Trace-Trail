@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class Zoom : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float zoomSpeed = 2f;
+    private float zoomInMax = 1;
+    private float zoomOutMax = 15;
+
+    private Camera mainCamera;
+    private float startingZPosition;
+
+    private void Awake()
     {
-        
+        mainCamera = Camera.main;
+        startingZPosition = mainCamera.transform.position.z;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void zoomScreen (float increment) 
     {
-        
+        if(increment == 0) 
+        {
+            return
+        }
+        else
+        {
+           float target = Mathf.Clamp(mainCamera.orthographicSize + increment, zoomInMax, zoomOutMax); 
+           mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, target, Time.deltaTime * zoomSpeed)
+        }
     }
 }
